@@ -1,19 +1,25 @@
-## MesloLGS NF Font  
+## MesloLGSNF Font  
+  
+Requires:  
 
-requires:
+```shell
+sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)"
+```
 
-```bash
-sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/master/install.sh)"
-```  
+Automatic:
 
-install:
+```shell
+bash -c "$(curl -LSs https://github.com/fontmgr/MesloLGSNF/raw/master/install.sh)"
+```
 
-```bash
+Install:
+
+```shell
 sudo fontmgr install MesloLGSNF
 ```
 
-update:
+Update:
 
-```bash
+```shell
 sudo fontmgr update MesloLGSNF
 ```

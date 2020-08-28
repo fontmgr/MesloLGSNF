@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-APPNAME="$(basename $0)"
+APPNAME="MesloLGSNF"
 USER="${SUDO_USER:-${USER}}"
 HOME="${USER_HOME:-${HOME}}"
 
@@ -8,7 +8,7 @@ HOME="${USER_HOME:-${HOME}}"
 # @Author          : Jason
 # @Contact         : casjaysdev@casjay.net
 # @File            : install.sh
-# @Created         : Wed, Aug 09, 2020, 02:00 EST
+# @Created         : Fr, Aug 28, 2020, 00:00 EST
 # @License         : WTFPL
 # @Copyright       : Copyright (c) CasjaysDev
 # @Description     : installer script for MesloLGSNF font
@@ -28,54 +28,53 @@ if [ -f "$SCRIPTSFUNCTDIR/functions/$SCRIPTSFUNCTFILE" ]; then
 elif [ -f "$HOME/.local/share/CasjaysDev/functions/$SCRIPTSFUNCTFILE" ]; then
   . "$HOME/.local/share/CasjaysDev/functions/$SCRIPTSFUNCTFILE"
 else
-  mkdir -p "/tmp/CasjaysDev/functions"
-  curl -LSs "$SCRIPTSFUNCTURL/$SCRIPTSFUNCTFILE" -o "/tmp/CasjaysDev/functions/$SCRIPTSFUNCTFILE" || exit 1
-  . "/tmp/CasjaysDev/functions/$SCRIPTSFUNCTFILE"
+  curl -LSs "$SCRIPTSFUNCTURL/$SCRIPTSFUNCTFILE" -o "/tmp/$SCRIPTSFUNCTFILE" || exit 1
+  . "/tmp/$SCRIPTSFUNCTFILE"
 fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+system_installdirs
+
+# OS Support: supported_os unsupported_oses
+
+unsupported_oses
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Make sure the scripts repo is installed
 
-#scripts_check
+scripts_check
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Defaults
-
-APPNAME="MesloLGSNF"
-PLUGNAME=""
+APPNAME="${APPNAME:-MesloLGSNF}"
+APPDIR="${APPDIR:-$SHARE/CasjaysDev/fontmgr}/$APPNAME"
+REPO="${FONTMGRREPO:-https://github.com/fontmgr}/${APPNAME}"
+REPORAW="${REPORAW:-$REPO/raw}"
+APPVERSION="$(curl -LSs $REPORAW/master/version.txt)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# git repos
+# dfmgr_install fontmgr_install iconmgr_install pkmgr_install systemmgr_install thememgr_install wallpapermgr_install
 
-PLUGINREPO=""
+fontmgr_install
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Version
-
-APPVERSION="$(curl -LSs ${FONTMGRREPO:-https://github.com/fontmgr}/$APPNAME/raw/master/version.txt)"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# set the install type
-
-font_installer
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Set options
-
-APPDIR="$SHARE/CasjaysDev/fontmgr/$APPNAME"
-PLUGDIR="$SHARE/$APPNAME/${PLUGNAME:-plugins}"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Script options IE: --help
 
 show_optvars "$@"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Do not update
+
+#systemmgr_noupdate
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -117,7 +116,7 @@ install_cpan $CPAN
 install_gem $GEMS
 
 # Other dependencies
-dotfilesreq
+dotfilesreq git
 dotfilesreqadmin
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -133,32 +132,13 @@ ensure_perms
 
 if [ -d "$APPDIR/.git" ]; then
   execute \
-    "git_update $APPDIR" \
-    "Updating $APPNAME fonts"
+  "git_update $APPDIR" \
+  "Updating $APPNAME configurations"
 else
   execute \
-    "backupapp && \
-    git_clone -q $REPO/$APPNAME $APPDIR" \
-    "Installing $APPNAME fonts"
-fi
-
-# exit on fail
-failexitcode
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Plugins
-
-if [ "$PLUGNAME" != "" ]; then
-  if [ -d "$PLUGDIR"/.git ]; then
-    execute \
-      "git_update $PLUGDIR" \
-      "Updating $PLUGNAME"
-  else
-    execute \
-      "git_clone $PLUGINREPO $PLUGDIR" \
-      "Installing $PLUGNAME"
-  fi
+  "backupapp && \
+        git_clone -q $REPO/$APPNAME $APPDIR" \
+  "Installing $APPNAME configurations"
 fi
 
 # exit on fail
@@ -169,19 +149,18 @@ failexitcode
 # run post install scripts
 
 run_postinst() {
-  run_postinst_global
-
+  fontmgr_run_post
 }
 
 execute \
-  "run_postinst" \
-  "Running post install scripts"
+"run_postinst" \
+"Running post install scripts"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # create version file
 
-install_fontmgr_version
+fontmgr_install_version
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
