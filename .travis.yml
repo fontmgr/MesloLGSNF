@@ -1,0 +1,43 @@
+# travis-ci test
+
+language: bash
+sudo: enabled
+
+jobs:
+  include:
+    - os: linux
+      dist: focal
+      before_install: sudo apt-get update
+      arch:
+        - amd64
+#        - arm64
+#        - armhf
+    # - os: osx
+    #   osx_image: xcode12.1
+    #   before_install: brew update -f
+
+install:
+  - sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" && systemmgr install installer
+  - sudo ./install.sh
+
+#services:
+#  - docker
+
+#before_install:
+#  - docker pull archlinux
+#  - docker pull centos
+#  - docker pull debian
+#  - docker pull fedora
+#  - docker pull ubuntu
+
+#script:
+#  - docker run --rm -v $(pwd):/scripts -it archlinux /bin/bash -c /scripts/tests/docker-pacman.sh
+#  - docker run --rm -v $(pwd):/scripts -it centos /bin/bash -c /scripts/tests/docker-yum.sh
+#  - docker run --rm -v $(pwd):/scripts -it fedora /bin/bash -c /scripts/tests/docker-dnf.sh
+#  - docker run --rm -v $(pwd):/scripts -it debian /bin/bash -c /scripts/tests/docker-apt.sh
+#  - docker run --rm -v $(pwd):/scripts -it ubuntu /bin/bash -c /scripts/tests/docker-apt.sh
+
+notifications:
+  email:
+    on_failure: never
+    on_success: never
