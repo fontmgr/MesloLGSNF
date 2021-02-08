@@ -48,7 +48,7 @@ APPNAME="${APPNAME:-MesloLGSNF}"
 APPDIR="${APPDIR:-$SHARE/CasjaysDev/fontmgr}/$APPNAME"
 REPO="${FONTMGRREPO:-https://github.com/fontmgr}/${APPNAME}"
 REPORAW="${REPORAW:-$REPO/raw}"
-APPVERSION="$(curl -LSs $REPORAW/master/version.txt)"
+APPVERSION="$(__appversion "$REPORAW/master/version.txt")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -88,8 +88,7 @@ if [ -d "$APPDIR/.git" ]; then
     "Updating $APPNAME configurations"
 else
   execute \
-    "backupapp && \
-        git_clone -q $REPO/$APPNAME $APPDIR" \
+    "git_clone -q $REPO/$APPNAME $APPDIR" \
     "Installing $APPNAME configurations"
 fi
 
