@@ -43,9 +43,9 @@ scripts_check
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Defaults
 APPNAME="${APPNAME:-MesloLGSNF}"
-APPDIR="${APPDIR:-$SHARE/CasjaysDev/fontmgr}/$APPNAME"
+APPDIR="${APPDIR:-$SHARE/CasjaysDev/fontmgr/$APPNAME}"
 INSTDIR="${APPDIR}"
-REPO="${FONTMGRREPO:-https://github.com/fontmgr}/${APPNAME}"
+REPO="${FONTMGRREPO:-https://github.com/fontmgr/$APPNAME}"
 REPORAW="${REPORAW:-$REPO/raw}"
 APPVERSION="$(__appversion "$REPORAW/master/version.txt")"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
