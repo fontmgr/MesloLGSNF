@@ -43,18 +43,24 @@ scripts_check
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Defaults
 APPNAME="${APPNAME:-MesloLGSNF}"
-APPDIR="${APPDIR:-$SHARE/CasjaysDev/fontmgr/$APPNAME}"
-INSTDIR="${APPDIR}"
-REPO="${FONTMGRREPO:-https://github.com/fontmgr/$APPNAME}"
-REPORAW="${REPORAW:-$REPO/raw}"
-APPVERSION="$(__appversion "$REPORAW/master/version.txt")"
+APPDIR="$SHARE/CasjaysDev/fontmgr/$APPNAME"
+INSTDIR="$SHARE/CasjaysDev/fontmgr/$APPNAME"
+REPO_BRANCH="${GIT_REPO_BRANCH:-master}"
+REPO="${FONTMGRREPO:-https://github.com/fontmgr}/$APPNAME"
+REPORAW="$REPO/raw/$REPO_BRANCH"
+APPVERSION="$(__appversion "$REPORAW/version.txt")"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Require a version higher than
+fontmgr_req_version "$APPVERSION"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Call the fontmgr function
 fontmgr_install
-fontmgr_run_init
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Script options IE: --help
 show_optvars "$@"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# initialize the installer
+fontmgr_run_init
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Ensure directories exist
 ensure_dirs
@@ -65,7 +71,7 @@ if __am_i_online; then
   if [ -d "$INSTDIR/.git" ]; then
     execute "git_update $INSTDIR" "Updating $APPNAME font package"
   else
-    execute "git_clone $REPO/$APPNAME $INSTDIR" "Installing $APPNAME font package"
+    execute "git_clone $REPO $INSTDIR" "Installing $APPNAME font package"
   fi
   # exit on fail
   failexitcode $? "Git has failed"
@@ -81,6 +87,10 @@ execute "run_postinst" "Running post install scripts"
 # create version file
 fontmgr_install_version
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# exit
+# run exit function
 run_exit
-# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# End application
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# lets exit with code
+exit ${exitCode:-$?}
