@@ -3,13 +3,13 @@
 Requires:  
 
 ```shell
-sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)"
+sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/main/install.sh)"
 ```
 
 Automatic:
 
 ```shell
-bash -c "$(curl -LSs https://github.com/fontmgr/MesloLGSNF/raw/master/install.sh)"
+bash -c "$(curl -LSs https://github.com/fontmgr/MesloLGSNF/raw/main/install.sh)"
 ```
 
 Install:

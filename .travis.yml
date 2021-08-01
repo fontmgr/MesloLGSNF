@@ -17,7 +17,7 @@ jobs:
     #   before_install: brew update -f
 
 install:
-  - sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" && systemmgr install installer
+  - sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/main/install.sh)" && systemmgr install installer
   - sudo ./install.sh
 
 #services:
