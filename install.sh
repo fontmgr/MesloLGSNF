@@ -45,7 +45,7 @@ scripts_check
 APPNAME="${APPNAME:-MesloLGSNF}"
 APPDIR="$SHARE/CasjaysDev/fontmgr/$APPNAME"
 INSTDIR="$SHARE/CasjaysDev/fontmgr/$APPNAME"
-REPO_BRANCH="${GIT_REPO_BRANCH:-master}"
+REPO_BRANCH="${GIT_REPO_BRANCH:-main}"
 REPO="${FONTMGRREPO:-https://github.com/fontmgr}/$APPNAME"
 REPORAW="$REPO/raw/$REPO_BRANCH"
 APPVERSION="$(__appversion "$REPORAW/version.txt")"
